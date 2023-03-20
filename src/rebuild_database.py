@@ -1,7 +1,7 @@
 import sqlite3
 
 if __name__ == "__main__":
-    con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+    con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
     cur = con.cursor()
     cur.execute("DELETE FROM Pig")
     cur.execute("DELETE FROM Farm")

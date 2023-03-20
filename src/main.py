@@ -34,9 +34,9 @@ class Search():
             if a == "0":
                 if Id.isdigit():
                     data = []
-                    con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                    con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                     cur = con.cursor()
-                    cur.execute("SELECT * FROM Pig WHERE PigId = {}".format(a))
+                    cur.execute("SELECT * FROM Pig WHERE PigId = {}".format(Id))
                     infos = cur.fetchall()
                     cur.close()
                     con.close()
@@ -47,15 +47,15 @@ class Search():
                     if len(data) == 0:
                         return "Pig not exist"
                     else:
-                        return str(data[0])
+                        return data[0]
                 else:
                     return "input wrong"
             elif a == "1":
                 if Id.isdigit():
                     data = []
-                    con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                    con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                     cur = con.cursor()
-                    cur.execute("SELECT * FROM Farm WHERE FarmId = {}".format(a))
+                    cur.execute("SELECT * FROM Farm WHERE FarmId = {}".format(Id))
                     infos = cur.fetchall()
                     cur.close()
                     con.close()
@@ -65,7 +65,7 @@ class Search():
                     if len(data) == 0:
                         return "Farm not exsit"
                     else:
-                        return str(data[0])
+                        return data[0]
                 else:
                     return "input wrong"
             else:
@@ -78,7 +78,7 @@ class Buy():
         return
 
     def run(self, mon, a, b, startno):
-        if str(mon).isdigit() and (a == 'Black' or a == 'Small' or a == 'Big') and b.isdigit() and startno.isdigit():
+        if (a == 'Black' or a == 'Small' or a == 'Big') and b.isdigit() and startno.isdigit():
             n = int(b)
             startno = int(startno)
             initW = np.random.random(n) * 30 + 20
@@ -86,7 +86,7 @@ class Buy():
             resultpig = []
             if (a == 'Black' and 15 * totInitW <= mon) or (a == 'Small' and 7 * totInitW <= mon) or (a == 'Big' and 6 * totInitW <= mon):
 
-                con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                 cur = con.cursor()
                 cur.execute("SELECT * FROM Pig")
                 pigs = []
@@ -97,7 +97,7 @@ class Buy():
                 cur.close()
                 con.close()
 
-                con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                 cur = con.cursor()
                 cur.execute("SELECT * FROM Farm")
                 farms = []
@@ -141,16 +141,16 @@ class Buy():
 
                 mon -= (a == 'Black') * (15 * totInitW) + (a == 'Small') * (7 * totInitW) + (a == 'Big') * (6 * totInitW)
 
-                con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                 cur = con.cursor()
                 for i in range(n):
                     no = startno + i
-                    cur.execute("Insert INTO Pig(PigId, Age, Weight) VALUES({}, {}, {})".format(no, 0, initW[i]))
+                    cur.execute("Insert INTO Pig(PigId, Type, Age, Weight, FarmId) VALUES({}, '{}', {}, {}, {})".format(no, a, 0, initW[i], resultpig[i]))
                 con.commit()
                 cur.close()
                 con.close()
 
-                con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                 cur = con.cursor()
                 for i in range(100):
                     cur.execute("Update Farm SET Remain = {} WHERE FarmId = {}".format(remainpig[i], i))
@@ -185,7 +185,7 @@ class UI():
                     print("Please input Black/Small/Big, number, start_no in a row")
                     b = input().split(' ')
                     if len(b) == 3:
-                        con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                        con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                         cur = con.cursor()
                         cur.execute("SELECT * FROM Money")
                         infos = cur.fetchall()
@@ -197,7 +197,7 @@ class UI():
                         resultmon, resultpig = buy.run(remain_mon, b[0], b[1], b[2])
                         print(resultmon, resultpig)
 
-                        con = sqlite3.connect('/home/moonlight/PigManageSystem/database/data.db')
+                        con = sqlite3.connect('/home/lmc20020909/项目/tzlPigManageSystem/database/data.db')
                         cur = con.cursor()
                         cur.execute("UPDATE MONEY SET Remain = {} WHERE Remain = {}".format(resultmon, remain_mon))
                         con.commit()

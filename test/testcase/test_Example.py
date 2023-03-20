@@ -3,7 +3,7 @@ import unittest
 from src.main import Search
 from src.main import Buy
 
-class test_Search(unittest.TestCase):
+class test_Example(unittest.TestCase):
     # 创建测试用例方法, 方法要以test开头
     # 执行顺序是根据case序号来的, 并非代码的顺序
     def setUp(self) -> None:  # 调用setUp
