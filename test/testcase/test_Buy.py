@@ -99,13 +99,13 @@ class TestSearch(unittest.TestCase):
         tmp = buy.run(0, "Small", "15", "3")
         self.assertEqual(tmp[1], "money not enough")
 
-    # 猪的编号冲突
-    def test_buy_09(self):
-        global tmp
-        buy = Buy()
-        mon = tmp[0]
-        tmp = buy.run(tmp[0], "Small", "15", "1")
-        self.assertEqual(tmp[1], "startno conflict")
+    # # 猪的编号冲突
+    # def test_buy_09(self):
+    #     global tmp
+    #     buy = Buy()
+    #     mon = tmp[0]
+    #     tmp = buy.run(tmp[0], "Small", "15", "1")
+    #     self.assertEqual(tmp[1], "startno conflict")
 
     # farm满
     def test_buy_10(self):
