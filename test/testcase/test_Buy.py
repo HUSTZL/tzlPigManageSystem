@@ -66,3 +66,51 @@ class TestSearch(unittest.TestCase):
         tmp = buy.run(tmp[0], "Big", "15", "21")
         self.assertTrue(mon - 6 * 15 * 50 <= tmp[0] <= mon - 6 * 15 * 20)
         self.assertEqual(tmp[1], [2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3])
+
+    # 参数a输入非法
+    def test_buy_05(self):
+        global tmp
+        buy = Buy()
+        mon = tmp[0]
+        tmp = buy.run(tmp[0], "hhforz", "15", "3")
+        self.assertEqual(tmp[1], "input wrong")
+
+    # 参数b输入非法
+    def test_buy_06(self):
+        global tmp
+        buy = Buy()
+        mon = tmp[0]
+        tmp = buy.run(tmp[0], "Black", "hhforz", "3")
+        self.assertEqual(tmp[1], "input wrong")
+
+    # 参数startno输入非法
+    def test_buy_07(self):
+        global tmp
+        buy = Buy()
+        mon = tmp[0]
+        tmp = buy.run(tmp[0], "Small", "15", "hhforz")
+        self.assertEqual(tmp[1], "input wrong")
+
+    # 余额不足
+    def test_buy_08(self):
+        global tmp
+        buy = Buy()
+        mon = tmp[0]
+        tmp = buy.run(0, "Small", "15", "3")
+        self.assertEqual(tmp[1], "money not enough")
+
+    # 猪的编号冲突
+    def test_buy_09(self):
+        global tmp
+        buy = Buy()
+        mon = tmp[0]
+        tmp = buy.run(tmp[0], "Small", "15", "1")
+        self.assertEqual(tmp[1], "startno conflict")
+
+    # farm满
+    def test_buy_10(self):
+        global tmp
+        buy = Buy()
+        mon = tmp[0]
+        tmp = buy.run(1000000, "Big", "1000", "3")
+        self.assertEqual(tmp[1], "farm not enough")
